@@ -29,4 +29,4 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftps
-        server-dir: /radiantarena.jeancarlos123.me/htdocs/
+        server-dir: /radiantarena.jeancarlos123.me/htdocs/public
