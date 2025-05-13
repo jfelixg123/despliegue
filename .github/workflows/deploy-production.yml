@@ -24,20 +24,8 @@ jobs:
         extensions: mbstring, bcmath, gd, pdo, pdo_mysql
         tools: composer
 
-    - name: Copy .env (opcional si no está en repo)
-      run: |
-        if [ ! -f .env ]; then
-          echo "APP_NAME=Laravel" > .env
-          echo "APP_KEY=" >> .env
-          echo "APP_ENV=production" >> .env
-          echo "APP_DEBUG=false" >> .env
-          echo "LOG_CHANNEL=stack" >> .env
-          echo "DB_CONNECTION=mysql" >> .env
-          # Puedes añadir más variables aquí
-        fi
-
     - name: Install dependencies (composer install)
-      run: composer install --no-dev --optimize-autoloader
+      run: composer install --no-interaction --optimize-autoloader
 
     - name: Upload via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -47,5 +35,4 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftps
         server-dir: /radiantarena.jeancarlos123.me/htdocs/
-        dangerously-ignore-gitignore: true
 
