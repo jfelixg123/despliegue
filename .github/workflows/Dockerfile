@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www
+WORKDIR /radiantarena.jeancarlos123.me/htdocs
 
 COPY composer.json composer.lock ./
 RUN composer install --no-interaction --optimize-autoloader
@@ -33,7 +33,7 @@ FROM nginx:latest
 RUN echo 'server {\n\
     listen 80;\n\
     index index.php index.html;\n\
-    root /var/www/public;\n\
+    root /radiantarena.jeancarlos123.me/htdocs/public;\n\
     \n\
     location / {\n\
     try_files $uri $uri/ /index.php?$query_string;\n\
@@ -51,9 +51,9 @@ RUN echo 'server {\n\
     }\n\
     }' > /etc/nginx/conf.d/default.conf
 
-COPY --from=laravel /var/www /var/www
+COPY --from=laravel /radiantarena.jeancarlos123.me/htdocs/public /radiantarena.jeancarlos123.me/htdocs/public
 
-WORKDIR /var/www
+WORKDIR /radiantarena.jeancarlos123.me/htdocs/
 
 EXPOSE 80
 
