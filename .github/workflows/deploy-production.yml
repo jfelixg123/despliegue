@@ -1,38 +1,22 @@
-name: FTP Deploy Laravel
-
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: [ "main" ]
 
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
-    name: Build Laravel & Deploy
+  web-deploy:
+    name: FTP Deploy
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Set up PHP with Composer
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        extensions: mbstring, bcmath, gd, pdo, pdo_mysql
-        tools: composer
-
-    - name: Install dependencies (composer install)
-      run: composer install --no-interaction --optimize-autoloader
-
-    - name: Upload via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+    - name: Deploy via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftps
         server-dir: /radiantarena.jeancarlos123.me/htdocs/
-
