@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /radiantarena.jeancarlos123.me/htdocs
+WORKDIR /radiantarena.jeancarlos123.me/htdocs/
 
 COPY composer.json composer.lock ./
 RUN composer install --no-interaction --optimize-autoloader
