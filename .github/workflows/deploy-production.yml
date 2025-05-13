@@ -3,6 +3,9 @@ name: FTP Deploy Laravel
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
   workflow_dispatch:
 
 jobs:
@@ -44,3 +47,5 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftps
         server-dir: /radiantarena.jeancarlos123.me/htdocs/
+        dangerously-ignore-gitignore: true
+
