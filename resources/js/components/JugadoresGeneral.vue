@@ -96,6 +96,8 @@
 </template>
 
 <script>
+import { sortUserPlugins } from 'vite';
+
 export default {
     name: 'JugadoresGeneral',
     props: {
@@ -207,7 +209,8 @@ export default {
             return (kda * 0.4 + rangoValue * 0.4) * rolFactor;
         },
         fetchJugadores() {
-            axios.get('mercadojugadores')
+            const url = `${this.baseURL}mercadojugadores`;
+            axios.get(url)
                 .then(response => {
                     console.log('Datos recibidos:', response.data);
                     this.jugadores = response.data;
