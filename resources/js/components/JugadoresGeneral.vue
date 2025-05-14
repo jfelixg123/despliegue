@@ -207,7 +207,7 @@ export default {
             return (kda * 0.4 + rangoValue * 0.4) * rolFactor;
         },
         fetchJugadores() {
-            axios.get('api/mercadojugadores')
+            axios.get('mercadojugadores')
                 .then(response => {
                     console.log('Datos recibidos:', response.data);
                     this.jugadores = response.data;
