@@ -197,7 +197,7 @@ export default {
 
             const rangoValue = this.rangosValoracion[jugador.rango_valorant] || 1;
 
-            
+
             const rolFactor = {
                 1: 1.2, // Duelista
                 2: 1.1, // Iniciador
@@ -208,7 +208,7 @@ export default {
             return (kda * 0.4 + rangoValue * 0.4) * rolFactor;
         },
         fetchJugadores() {
-            axios.get('mercadojugadores')
+            axios.get('api/mercadojugadores')
                 .then(response => {
                     console.log('Datos recibidos:', response.data);
                     this.jugadores = response.data;
