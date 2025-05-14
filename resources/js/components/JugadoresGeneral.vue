@@ -197,7 +197,6 @@ export default {
 
             const rangoValue = this.rangosValoracion[jugador.rango_valorant] || 1;
 
-
             const rolFactor = {
                 1: 1.2, // Duelista
                 2: 1.1, // Iniciador
