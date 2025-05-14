@@ -14,6 +14,8 @@ import UserProfile from './components/UserProfile.vue'; // Add this line
 import axios from 'axios';
 axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 
+window.axios = axios;
+
 const app = createApp({});
 
 app.component('torneos', Torneos);

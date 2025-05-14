@@ -96,8 +96,6 @@
 </template>
 
 <script>
-const API_BASE = import.meta.env.VITE_APP_URL;
-
 export default {
     name: 'JugadoresGeneral',
     props: {
@@ -152,9 +150,64 @@ export default {
             .slice(0, 6);  // Esto limita a 6 jugadores
         }
     },
-    methods: {
+    methods:{
+        toggleFiltroSinEquipo() {
+            this.mostrarSoloSinEquipo = !this.mostrarSoloSinEquipo;
+        },
+        mostrarConfirmacion(jugador) {
+            this.jugadorSeleccionado = jugador;
+            this.showModal = true;
+        },
+        confirmarContratacion() {
+        if (!this.jugadorSeleccionado || !this.usuario) {
+            this.mostrarMensaje('Error: No se puede realizar la operación', 'error');
+            return;
+        }
+
+        axios.post('contratar-jugador/', {
+            jugador_id: this.jugadorSeleccionado.id_jugador,
+            entrenador_id: this.usuario.id_usuario
+        })
+        .then(response => {
+            // Actualizar la lista de jugadores
+            this.fetchJugadores();
+            this.showModal = false;
+            this.jugadorSeleccionado = null;
+            this.mostrarMensaje('Jugador contratado exitosamente', 'success');
+        })
+        .catch(error => {
+            console.error('Error al contratar jugador:', error);
+            this.mostrarMensaje('Error al contratar jugador: ' + error.response?.data?.message || 'Error desconocido', 'error');
+        });
+    },
+        mostrarMensaje(mensaje, tipo) {
+            // Implementa aquí tu lógica de notificación
+            alert(mensaje);
+        },
+        calcularKDA(jugador) {
+            if (!jugador.deaths || jugador.deaths === 0) {
+                return 'Perfect';
+            }
+            return ((jugador.kills + jugador.assists) / jugador.deaths).toFixed(2);
+        },
+        calcularPlayerScore(jugador) {
+            const kda = jugador.deaths === 0 ?
+                (jugador.kills + jugador.assists) :
+                (jugador.kills + jugador.assists) / jugador.deaths;
+
+            const rangoValue = this.rangosValoracion[jugador.rango_valorant] || 1;
+
+            const rolFactor = {
+                1: 1.2, // Duelista
+                2: 1.1, // Iniciador
+                3: 1.0, // Centinela
+                4: 1.1  // Controlador
+            }[jugador.id_rol] || 1;
+
+            return (kda * 0.4 + rangoValue * 0.4) * rolFactor;
+        },
         fetchJugadores() {
-            axios.get(`${API_BASE}/mercadojugadores`)
+            axios.get('mercadojugadores')
                 .then(response => {
                     console.log('Datos recibidos:', response.data);
                     this.jugadores = response.data;
@@ -162,32 +215,10 @@ export default {
                 .catch(error => {
                     console.error('Error al obtener jugadores:', error);
                 });
-        },
-
-        confirmarContratacion() {
-            if (!this.jugadorSeleccionado || !this.usuario) {
-                this.mostrarMensaje('Error: No se puede realizar la operación', 'error');
-                return;
-            }
-
-            axios.post(`${API_BASE}/contratar-jugador`, {
-                jugador_id: this.jugadorSeleccionado.id_jugador,
-                entrenador_id: this.usuario.id_usuario
-            })
-                .then(response => {
-                    this.fetchJugadores();
-                    this.showModal = false;
-                    this.jugadorSeleccionado = null;
-                    this.mostrarMensaje('Jugador contratado exitosamente', 'success');
-                })
-                .catch(error => {
-                    console.error('Error al contratar jugador:', error);
-                    this.mostrarMensaje('Error al contratar jugador: ' + (error.response?.data?.message || 'Error desconocido'), 'error');
-                });
-        },
-        mounted() {
-            this.fetchJugadores();
         }
+    },
+    mounted() {
+        this.fetchJugadores();
     }
 };
 </script>
