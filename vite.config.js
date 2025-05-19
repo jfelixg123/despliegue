@@ -20,4 +20,9 @@ export default defineConfig({
             host: 'localhost',
         },
     },
+    build: {
+        rollupOptions: {
+            external: ['fsevents']
+        }
+    }
 });
