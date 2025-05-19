@@ -23,7 +23,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/laravel-app:latest .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/laravel-app:latest Dockerfile/
 
       - name: Push Docker image
         run: |
