@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/torneos', [TorneoController::class, 'getTorneos'])->name('apitorneos');
 
+
 Route::get('/torneos/individual/{id}', [TorneoController::class, 'getTorneoIndividual'])->name('getTorneoIndividual');
 
 Route::get('/equipos', [EquipoController::class, 'getEquipos'])->name('apiequipos');
