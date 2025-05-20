@@ -18,9 +18,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /radiantarena.jeancarlos123.me/htdocs/
 
 COPY composer.json composer.lock ./
-RUN composer install --no-interaction --optimize-autoloader
 
 COPY . .
+
+RUN composer install --no-interaction --optimize-autoloader
 
 RUN mkdir -p storage bootstrap/cache \
     && chown -R www-data:www-data /var/www \
